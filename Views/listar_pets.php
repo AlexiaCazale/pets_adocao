@@ -14,6 +14,8 @@
                 <th>Idade</th>
                 <th>Cor</th>
                 <th>Porte</th>
+                <th>Atualizar</th>
+                <th>Apagar</th>
             </tr>
             <?php   
                 foreach($ret as $dado){
@@ -22,6 +24,8 @@
                     <td>{$dado->idade}</td>
                     <td>{$dado->cor}</td>
                     <td>{$dado->porte}</td>
+                    <td><button>Atualizar</button></td>
+                    <td><button>Apagar</button>/td>
                     <td>
                     <a href="">Alterar</a>&nbsp;&nbsp;
                     <a href="">Excluir</a>&nbsp;&nbsp;</td>

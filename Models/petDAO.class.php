@@ -42,6 +42,45 @@
             }
         }
 
+         public function alterar_pet($pet){
+            $sql = "UPDATE pets SET (nome, idade, cor, porte) WHERE id_pet";
+
+            try{
+                
+                $stm = $this -> db -> prepare($sql);
+                $stm -> bindValue(1, $pet -> getIdPet());
+                $stm -> bindValue(2, $pet -> getNome());
+                $stm -> bindValue(3, $pet -> getIdade());
+                $stm -> bindValue(4, $pet -> getCor());
+                $stm -> bindValue(5, $pet -> getPorte());
+                $stm -> execute();
+                $this -> db = null;
+                return "Pet alterado com sucesso com sucesso";
+
+            }catch(PDOException $e){
+                $this -> db = null;
+                die("Problema ao inserir o pet");
+            }
+        }
+
+         public function apagar_pet($pet){
+            $sql = "DELETE FROM pets WHERE id_pet";
+
+            try{
+                
+                $stm = $this -> db -> prepare($sql);
+                $stm -> bindValue(1, $pet -> getIdPet());
+
+                $stm -> execute();
+                $this -> db = null;
+                return "Pet deletado com sucesso com sucesso";
+
+            }catch(PDOException $e){
+                $this -> db = null;
+                die("Problema ao inserir o pet");
+            }
+        }
+
     }
 
 ?>
