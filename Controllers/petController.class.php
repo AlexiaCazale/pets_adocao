@@ -13,6 +13,7 @@
             //Mostrar os pets
             require_once "Views/listar_pets.php";
         }
+        
         public function cadastrar(){
             $msg = array("", "", "", "");
             $erro = false;
@@ -36,18 +37,29 @@
                 }
                 if(!$erro){
 
+                    //Criar uma instância do objeto pet
+                    $pet = new Pet(0, $_POST["nome"], $_POST["idade"], $_POST["cor"], $_POST["porte"]);
+                    //Criar uma instância do petDAO
+                    $petDAO = new petDAO();
+                    //Chamar o método inserir
+                    $petDAO->inserir_pet($pet);
+                    //Redirecionar para o listar
+                    header("location:index.php?controle=petController&metodo=listar");
+                    die();
                 }
-                //Criar uma instância do objeto pet
-                $pet = new Pet(0, $_POST["nome"], $_POST["idade"], $_POST["cor"], $_POST["porte"]);
-                //Criar uma instância do petDAO
-                $petDAO = new petDAO();
-                //Chamar o método inserir
-                $petDAO->inserir_pet($pet);
-                //Redirecionar para o listar
-                header("location:index.php?contorle=petCotroller&metodo=listar");
             }
-           require_once "Views/form_pets.php";
+
+            require_once "Views/form_pets.php";
             //visão formulário cadastrar
+        }
+        
+        public function deletar($pet_id){
+            $petDAO = new petDAO();
+            $ret = $petDAO->apagar_pet($pet_id);
+            header("location:index.php?controle=petController&metodo=listar");
+            die();
+
+            require_once "Views/form_pets.php";
         }
     }
 

@@ -19,16 +19,17 @@
             </tr>
             <?php   
                 foreach($ret as $dado){
+                    echo "<td colspan='6'><pre>";
+                    var_dump($dado); // Aqui ele será executado corretamente
+                    echo "</pre></td>";
                     echo "<tr>
+
                     <td>{$dado->nome}</td>
                     <td>{$dado->idade}</td>
                     <td>{$dado->cor}</td>
                     <td>{$dado->porte}</td>
-                    <td><button>Atualizar</button></td>
-                    <td><button>Apagar</button>/td>
-                    <td>
-                    <a href="">Alterar</a>&nbsp;&nbsp;
-                    <a href="">Excluir</a>&nbsp;&nbsp;</td>
+                    <td><a href='.'>Atualizar</a></td>
+                    <td><a href='index.php?controle=petController&metodo=deletar&id_pet=". $dado->pet_id . "'>Apagar</a></td>
                     </tr>";
                 }
             ?>
