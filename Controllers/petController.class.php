@@ -53,14 +53,55 @@
             //visão formulário cadastrar
         }
         
-        public function deletar($pet_id){
-            $petDAO = new petDAO();
-            $ret = $petDAO->apagar_pet($pet_id);
-            header("location:index.php?controle=petController&metodo=listar");
-            die();
+        public function deletar(){
+            if(isset($_GET['id'])){
+                $pet = new Pet($_GET['id']);
+                $petDAO = new petDAO();
+                $ret = $petDAO->apagar_pet($pet);
+                header("location:index.php?controle=petController&metodo=listar");
+                die();
+            }
 
             require_once "Views/form_pets.php";
         }
+
+        public function alterar(){
+            $msg = array("", "", "","");
+            if($_POST){
+                if(empty($_POST["nome"])){
+                    $msg[0] = "Preencha o nome do pet";
+                    $erro = true;
+                }
+                if($_POST["idade"] <= 0){
+                    $msg[1] = "Idade inválida";
+                    $erro = true;
+                }
+                if(empty($_POST["cor"])){
+                    $msg[2] = "Preencha a cor do pet";
+                    $erro = true;
+                }
+                if($_POST["porte"] == 0){
+                    $msg[3] = "Escolha um porte";
+                    $erro = true;
+                }
+                if(!$erro){
+                    $pet = new Pet($_POST["id_pet"], $_POST["nome"], $_POST["idade"], $_POST["cord"], $_POST["porte"]);
+                    $petDAO = new petDAO();
+                    $petDAO -> alterar_pet($pet);
+
+                // header("location:index.php?controle=petController&metodo=listar");
+
+                }
+                
+                    $pet = new Pet($_GET['id']);
+                    $petDAO = new petDAO();
+                    $ret = $petDAO->buscar_um_pet($pet);
+                    // header("location:index.php?controle=petController&metodo=listar");
+                    // die();
+
+            require_once "Views/edit_pet.php";
+        }
     }
+}
 
 ?>

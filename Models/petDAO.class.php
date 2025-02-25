@@ -42,33 +42,49 @@
             }
         }
 
-         public function alterar_pet($pet){
-            $sql = "UPDATE pets SET (nome, idade, cor, porte) WHERE id_pet (?)";
+         public function buscar_um_pet($pet){
+            // $sql = "UPDATE pets SET (nome, idade, cor, porte) VALUES (?, ?, ?, ?) WHERE id_pet = ?";
+            $sql = "SELECT * FROM pets WHERE id_pet = ?";
 
             try{
-                
+                $stm = $this -> db -> prepare($sql);
+                $stm -> bindValue(1, $pet->getIdPet());
+                $stm -> execute();
+                $this -> db = null;
+                return "Pet encontrado com sucesso com sucesso";
+
+            }catch(PDOException $e){
+                $this -> db = null;
+                die("Problema ao buscar o pet");
+            }
+        }
+
+        public function alterar_pet($pet){
+            $sql = "UPDATE pets nome = ?, idade = ?, cor = ?, porte = ? WHERE id_pet = ?";
+
+            try{
                 $stm = $this -> db -> prepare($sql);
                 $stm -> bindValue(1, $pet -> getNome());
                 $stm -> bindValue(2, $pet -> getIdade());
                 $stm -> bindValue(3, $pet -> getCor());
                 $stm -> bindValue(4, $pet -> getPorte());
-                $stm -> execute();
+                $stm -> bindValue(5, $pet -> getIdPet());
                 $this -> db = null;
-                return "Pet alterado com sucesso com sucesso";
+                return "Pet alteradp com sucesso com sucesso";
 
             }catch(PDOException $e){
                 $this -> db = null;
-                die("Problema ao inserir o pet");
+                die("Problema ao alterar o pet");
             }
         }
 
-         public function apagar_pet(int $id_pet){
+         public function apagar_pet($pet){
             $sql = "DELETE FROM pets WHERE id_pet = ?";
 
             try{
                 
                 $stm = $this -> db -> prepare($sql);
-                $stm -> bindValue(1, $id_pet);
+                $stm -> bindValue(1, $pet->getIdPet());
 
                 $stm -> execute();
                 $this -> db = null;
@@ -79,7 +95,6 @@
                 die("Problema ao inserir o pet");
             }
         }
-
     }
 
 ?>
